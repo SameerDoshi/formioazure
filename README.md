@@ -67,14 +67,24 @@ Go to the Azure Container Regisry in the portal and click admin user.  You'll ne
 run: docker login <replace>.azurecr.io -u <username> -p <access key>
 
 build the container:
-docker-compose build
+docker build
+Here's sample output:
+ ---> 9b9326168eb2
+Successfully built 9b9326168eb2
+SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
+
+Note the line "Successfully built 9b9326168eb2"
+
 
 Tag the container
-docker tag formio <replace>.azurecr.io/samples/formio
+docker tag <replace_with_build_from_above> <replace>.azurecr.io/samples/formio:<date>
+  ex:
+docker tag 9b9326168eb2 ssdformsio.azurecr.io/formio/formio:20200303
   
 Push the container:
 docker push <replace>.azurecr.io/samples/formio
-
+docker push ssdformsio.azurecr.io/formio/formio:20200303
+  
 After it pushes you can go into the portal and under your container registry under repositories you'll see a sample folder with a formio latest image in there
 
 Reference: [https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-docker-cli](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-docker-cli)
