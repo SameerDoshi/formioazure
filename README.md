@@ -16,9 +16,8 @@ Formio provides a guide to [deploying into Azure VMs](https://help.form.io/tutor
 ## Create Azure Resources
 1. Cosmos DB
 2. Azure Container Registry
-3. Azure Container Instance
-4. Azure Storage Account
-5. Azure Redis Cache
+3. Azure Storage Account
+4. Azure Redis Cache
 ##
 Modify our config to run in the PaaS
 1. Modify mongo url
@@ -43,9 +42,8 @@ This will start the app locally
 TODO: Add link to quick starts on creating the below from Azure Portal
 1. Cosmos DB
 2. Azure Container Registry
-3. Azure Container Instance
-4. Azure Storage Account
-5. Azure Redis Cache
+3. Azure Storage Account
+4. Azure Redis Cache
 
 ##Modify our config to run in the PaaS
 1. Modify mongo url
@@ -65,10 +63,37 @@ This time you will be prompted to answer several questions to setup cosmos
 Whoo hoo! your cosmos is setup
 3. Push image to Azure Container Registry
 Now lets create a container and push it to ACR
-TODO ***** ENDED HERE*****
+Go to the Azure Container Regisry in the portal and click admin user.  You'll need info from this page.
+run: docker login <replace>.azurecr.io -u <username> -p <access key>
+
+build the container:
+docker-compose build
+
+Tag the container
+docker tag formio <replace>.azurecr.io/samples/formio
+  
+Push the container:
+docker push <replace>.azurecr.io/samples/formio
+
+After it pushes you can go into the portal and under your container registry under repositories you'll see a sample folder with a formio latest image in there
+
+Reference: [https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-docker-cli](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-docker-cli)
+
 4. Publish to Azure Container Instance
-Add Azure Storage
-Add Azure Redis
+Here is Azure CLI code you can use from inside cloud shell to publish
+$image="<replace>.azurecr.io/sample/formio:latest"
+$RES_GROUP="rg-formio-test"
+$ACR_LOGIN_SERVER="<replace>.azurecr.io"
+$ACR_User="<replace>"
+$ACR_Password="<replace>"
+Run this command to create teh ACI instance  
+az container create --name formio-test --resource-group $RES_GROUP --image $image --registry-login-server $ACR_LOGIN_SERVER --registry-username $ACR_User --registry-password $ACR_Password --dns-name-label sam33rsamp13-M --query ipAddress.fqdn --ports 80 8080
+
+
+5. Add Azure Storage
+
+
+6. Add Azure Redis
 
 
 Not Covered (todo)
