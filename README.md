@@ -66,8 +66,13 @@ Now lets create a container and push it to ACR
 Go to the Azure Container Regisry in the portal and click admin user.  You'll need info from this page.
 run: docker login <replace>.azurecr.io -u <username> -p <access key>
 
+change dockerfile by adding:
+COPY ./ /app/
+EXPOSE 8080
+EXPOSE 80
+
 build the container:
-docker build
+docker build --label formio_sameer
 Here's sample output:
  ---> 9b9326168eb2
 Successfully built 9b9326168eb2
@@ -75,6 +80,8 @@ SECURITY WARNING: You are building a Docker image from Windows against a non-Win
 
 Note the line "Successfully built 9b9326168eb2"
 
+Run the container
+docker run -dP --name fash 9b9326168eb2
 
 Tag the container
 docker tag <replace_with_build_from_above> <replace>.azurecr.io/samples/formio:<date>
